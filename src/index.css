@@ -47,12 +47,12 @@ body {
 	height: 100%;
 }
 
-colorscalePickerBottomContainer {
+.colorscalePickerBottomContainer {
 	min-height: 100px;
 	textAlign: center;
 }
 
-colorscalePickerBottomContainer p {
+.colorscalePickerBottomContainer p {
 	width: 600px;
 	text-align: center;
 	font-size: 13px;

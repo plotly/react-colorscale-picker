@@ -277,8 +277,8 @@ export default class ColorscalePicker extends Component {
                        </div>
                     </div>
                 </div>
-                <div className='colorscale-scroll-bottom' style={{minHeight:'100px', textAlign:'center'}}>
-                    <p style={{width:'600px', textAlign:'center', fontSize:'13px', color:'#506784', border:'1px solid #DFE8F3', margin:'20px', padding:'10px', borderRadius:'2px', textAlign:'left', lineHeight:'1.4em'}}>
+                <div className='colorscalePickerBottomContainer'>
+                    <p>
                         {COLORSCALE_DESCRIPTIONS[this.state.colorscaleType]}
                     </p>
                     {BREWER.hasOwnProperty(this.state.colorscaleType) && BREWER[this.state.colorscaleType].map((x, i) =>
