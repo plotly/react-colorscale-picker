@@ -3,7 +3,7 @@ import chroma from 'chroma-js';
 export const COLORSCALE_TYPES = ['sequential', 'divergent', 'categorical', 'cubehelix', 'cmocean', 'custom'];
 
 export const COLORSCALE_DESCRIPTIONS = {
-    sequential: 'Use sequential colorscales for data that smoothly changes value.',
+    sequential: 'Use sequential colorscales for data that smoothly changes value and has meaningful order.',
     divergent: 'Use divergent colorscales for data that smoothly changes around a centerpoint (such as zero).',
     categorical: 'Use categorical colorscales for data that has distinct groups and a non-meaningful order.',
     cubehelix: 'Cubehelix colorscales are like sequential scales, but have the added benefit of printing clearly in black & white. Adjust the "start" slider to change the scale\'s base color. A cubehelix scale with 0 rotation transitions through a single base color. A scale with non-zero rotation "rotates" through other colors. Change the rotation slightly to add a touch of another color, change it more to create a scale with multiple colors.',
@@ -96,3 +96,4 @@ export const DEFAULT_SWATCHES = 6;
 export const DEFAULT_SCALE = chroma.scale(['#fafa6e','#2A4858']).mode('lch').colors(DEFAULT_SWATCHES);
 export const DEFAULT_LOG_BREAKPOINTS = 4;
 export const DEFAULT_BREAKPOINTS = [0, 1];
+export const DEFAULT_SWATCH_WIDTH = 20;
