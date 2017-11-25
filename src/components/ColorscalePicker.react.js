@@ -1,12 +1,17 @@
 import React, { Component, PropTypes } from 'react';
 import Colorscale from './Colorscale.react.js';
 import chroma from 'chroma-js';
+import Tooltip from 'rc-tooltip';
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
 
 import {COLORSCALE_TYPES, COLORSCALE_DESCRIPTIONS, BREWER, CMOCEAN, CUBEHELIX, 
     DEFAULT_SCALE, DEFAULT_SWATCHES,DEFAULT_BREAKPOINTS, DEFAULT_START, DEFAULT_LOG_BREAKPOINTS,
     DEFAULT_ROTATIONS, DEFAULT_GAMMA, DEFAULT_LIGHTNESS, DEFAULT_NCOLORS} from './constants.js';
 
 import '../index.css';
+
+const Handle = Slider.Handle;
         
 export default class ColorscalePicker extends Component {
 
@@ -35,19 +40,34 @@ export default class ColorscalePicker extends Component {
         this.updateCubehelixRotations = this.updateCubehelixRotations.bind(this);
         this.updateCubehelix = this.updateCubehelix.bind(this);
         this.toggleLog = this.toggleLog.bind(this);
+        this.handle = this.handle.bind(this);
     }
 
     componentDidMount() {
-        console.warn('mounting');
         this.setState({colorscaleOnMount: this.props.colorscale})
     }
+
+    handle = (props) => {
+        const { value, dragging, index, ...restProps } = props;
+        return (
+                <Tooltip
+                    prefixCls="rc-slider-tooltip"
+                    overlay={value}
+                    visible={dragging}
+                    placement="top"
+                    key={index}
+                >
+                    <Handle value={value} {...restProps} />
+                </Tooltip>
+        );
+    };
 
     getColorscale = (colorscale, nSwatches, logBreakpoints, log) => {
     /*
      * getColorscale() takes a scale, modifies it based on the input
      * parameters, and returns a new scale
      */
-        // helper function repeats a colorscale array N times
+        // helper function repeats a categorical colorscale array N times
         let repeatArray = (array, n) => {
             let arrays = Array.apply(null, new Array(n)); 
             arrays = arrays.map(function() { return array });
@@ -58,18 +78,18 @@ export default class ColorscalePicker extends Component {
             .mode('lch');
 
         if (log) {
-            const logData = Array(this.state.nSwatches).fill().map((x,i)=>i+1);           
+            const logData = Array(nSwatches).fill().map((x,i)=>i+1);           
             cs = cs.classes(chroma.limits(logData, 'l', logBreakpoints));
         }
 
-        let discreteScale = cs.colors(this.state.nSwatches);
+        let discreteScale = cs.colors(nSwatches);
 
         // repeat linear categorical ("qualitative") colorscales instead of repeating them
         if (!log && this.state.colorscaleType === 'categorical') {
-            discreteScale = repeatArray(colorscale, nSwatches).slice(0,nSwatches);
+            discreteScale = repeatArray(colorscale, nSwatches).slice(0, nSwatches);
         }
 
-        return discreteScale
+        return discreteScale;
     }
 
     toggleLog = () => {
@@ -122,15 +142,12 @@ export default class ColorscalePicker extends Component {
         this.props.onChange(cs);
     }
 
-    updateSwatchNumber = e => {
-        const ns = e.currentTarget.valueAsNumber;
-
+    updateSwatchNumber = ns => {
         const cs = this.getColorscale(
             this.state.previousColorscale,
             ns,
             this.state.logBreakpoints,
             this.state.log);
-        
         this.setState({
             nSwatches: ns,
             colorscale: cs,
@@ -163,16 +180,26 @@ export default class ColorscalePicker extends Component {
         });
     }
 
-    updateCubehelixStart = e => {
-        const start = e.currentTarget.valueAsNumber;
+    updateCubehelixStart = start => {
         const rot = this.state.cubehelix.rotations;
         this.updateCubehelix(start, rot);
     }
 
-    updateCubehelixRotations = e => {
-        const rot = e.currentTarget.valueAsNumber;
+    updateCubehelixRotations = rot => {
         const start = this.state.cubehelix.start;
         this.updateCubehelix(start, rot);
+    }
+
+    updateCubehelixStartState = start => {
+        const ch = this.state.cubehelix;
+        ch.start = start;
+        this.setState({cubehelix: ch});
+    }
+
+    updateCubehelixRotState = rot => {
+        const ch = this.state.cubehelix;
+        ch.rotations = rot;
+        this.setState({cubehelix: ch});
     }
 
     updateCubehelix = (start, rot) => {
@@ -204,7 +231,7 @@ export default class ColorscalePicker extends Component {
     }
 
     render() {
-        
+
         return (
             <div className='colorscalePickerContainer'>
                 <div className='colorscalePickerTopContainer'>
@@ -217,6 +244,10 @@ export default class ColorscalePicker extends Component {
                     </div>
                     <div className='colorscaleControlPanel'>
                         <div>
+                           <div className='noWrap inlineBlock'>
+                               <span className='textLabel spaceRight'>Swatches:</span>
+                               <span className='textLabel spaceRight'>{this.state.nSwatches}</span>
+                           </div>
                            {this.state.colorscaleType !== 'custom' &&
                                <div className='noWrap inlineBlock alignTop'>
                                    <span className='textLabel spaceRight spaceLeft'>Log scale</span>
@@ -226,7 +257,7 @@ export default class ColorscalePicker extends Component {
                                        value="log" 
                                        onChange={this.toggleLog} 
                                        defaultChecked={this.state.log} 
-                                       className='spaceRightZeroTop alignTop'
+                                       className='spaceRightZeroTop alignMiddle'
                                    />
                                    {this.state.log &&
                                        <span>
@@ -241,45 +272,40 @@ export default class ColorscalePicker extends Component {
                                    }
                                </div>
                            }
-                           <div className='noWrap inlineBlock'>
-                               <span className='textLabel spaceRight'>Swatches:</span>
-                               <span className='textLabel spaceRight'>{this.state.nSwatches}</span>
-                               <input
-                                   type="range"
-                                   min="1"
-                                   max="100"
-                                   defaultValue={this.state.nSwatches}
-                                   className="slider spaceRightZeroTop"
-                                   onMouseUp={this.updateSwatchNumber}
-                               />
-                            </div>
+                           <Slider
+                               min={1}
+                               max={100}
+                               defaultValue={this.state.nSwatches}
+                               handle={this.handle}
+                               onAfterChange={this.updateSwatchNumber}
+                           />
                         </div>
                         {this.state.colorscaleType === 'cubehelix' &&
                         <div>
-                           <div className='noWrap inlineBlock'>
-                               <span className='textLabel spaceRight'>Start: </span>
-                               <span className='textLabel spaceRight'>{this.state.cubehelix.start}</span>
-                               <input
-                                   type="range"
-                                   min="0"
-                                   max="300"
-                                   step="1"
+                           <div className='noWrap'>
+                               <span className='textLabel'>Start: </span>
+                               <span className='textLabel'>{this.state.cubehelix.start}</span>
+                               <Slider
+                                   min={0}
+                                   max={300}
+                                   step={1}
                                    value={this.state.cubehelix.start}
-                                   className="slider spaceRightZeroTop"
-                                   onMouseUp={this.updateCubehelixStart}
+                                   onChange={this.updateCubehelixStartState}
+                                   onAfterChange={this.updateCubehelixStart}
+                                   handle={this.handle}
                                />
                            </div>
-                           <div className='noWrap inlineBlock'>
-                               <span className='textLabel spaceRight'>Rotations: </span>
-                               <span className='textLabel spaceRight'>{this.state.cubehelix.rotations}</span>
-                               <input
-                                   type="range"
-                                   min="-1.5"
-                                   max="1.5"
-                                   step="0.1"
+                           <div className='noWrap'>
+                               <span className='textLabel'>Rotations: </span>
+                               <span className='textLabel'>{this.state.cubehelix.rotations}</span>
+                               <Slider
+                                   min={-1.5}
+                                   max={1.5}
+                                   step={0.1}
                                    value={this.state.cubehelix.rotations}
-                                   className="slider spaceRightZeroTop"
-                                   onMouseUp={this.updateCubehelixRotations}
+                                   onChange={this.updateCubehelixRotState}
+                                   onAfterChange={this.updateCubehelixRotations}
+                                   handle={this.handle}
                                />
                             </div>
                         </div>

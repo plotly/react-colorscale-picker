@@ -5,12 +5,12 @@ body {
 }
 
 .colorscalePickerContainer {
-	max-height: 600px;
+	max-height: 550px;
 	overflow-y: scroll;
     overflow-x: hidden;
 	max-width: 700px;
 	width: 400px;
-    min-width: 350px;
+    min-width: 300px;
 	margin: 5px;
 	background: rgba(242,245,250,0.9);
 	border: 1px solid #C8D4E3;
@@ -125,4 +125,13 @@ input[type=text] {
 
 .colorscaleButton:hover {
     background-color: #2a3f5f;
+}
+
+.rc-slider {
+    width: 300px;
+}
+
+.rc-slider-tooltip {
+    opacity: 1;
+    z-index: 999;
 }

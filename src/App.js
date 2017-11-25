@@ -37,7 +37,6 @@ class App extends Component {
     }
 
     recolorData = (dataToRecolor, colorscale, plotType) => {
-        console.warn(dataToRecolor, colorscale);
         let data = clone(dataToRecolor);
         
         if (plotType === 'pie') {
@@ -45,7 +44,6 @@ class App extends Component {
         }
         else if (plotType === 'map') {
             const plotlyColorscale = colorscale.map((x,i) => {return [i/(colorscale.length-1), x]});
-            console.warn(plotlyColorscale);
             data[0].marker.colorscale = plotlyColorscale;
         }
         else if (plotType === 'line') {
@@ -92,18 +90,16 @@ class App extends Component {
     }
 
     render() {
+        let toggleButtonStyle = {};
+        if (this.state.showColorscalePicker) {
+            toggleButtonStyle = {borderColor: '#A2B1C6'};
+        }
         return (
             <div className="App">
                 <div 
                     onClick={this.toggleColorscalePicker}
-                    style={{padding:'10px',
-                            border:'1px solid #DFE8F3',
-                            margin:'5px',
-                            fontSize:'12px',
-                            width:'200px',
-                            borderRadius:'4px',
-                            cursor:'pointer',
-                           }}
+                    className='toggleButton'
+                    style={toggleButtonStyle}
                 >
                     <Colorscale
                         colorscale={this.state.colorscale}
