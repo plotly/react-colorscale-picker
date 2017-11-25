@@ -1,4 +1,4 @@
-A React component for picking colorscales
+A React component for picking colorscales based on [Chroma.js](https://gka.github.io/chroma.js/)
 
 ![react-colorscales-screencast](https://github.com/plotly/react-colorscale-picker/raw/master/screenshot.png)
 
