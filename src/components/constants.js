@@ -2,6 +2,8 @@ import chroma from 'chroma-js';
 
 export const COLORSCALE_TYPES = ['sequential', 'divergent', 'categorical', 'cubehelix', 'cmocean', 'custom'];
 
+export const SCALES_WITHOUT_LOG = ['divergent', 'categorical', 'custom'];
+
 export const COLORSCALE_DESCRIPTIONS = {
     sequential: 'Use sequential colorscales for data that smoothly changes value and has meaningful order.',
     divergent: 'Use divergent colorscales for data that smoothly changes around a centerpoint (such as zero).',

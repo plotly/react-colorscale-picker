@@ -5,7 +5,7 @@ import Tooltip from 'rc-tooltip';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
-import {COLORSCALE_TYPES, COLORSCALE_DESCRIPTIONS, BREWER, CMOCEAN, CUBEHELIX, 
+import {COLORSCALE_TYPES, COLORSCALE_DESCRIPTIONS, BREWER, CMOCEAN, CUBEHELIX, SCALES_WITHOUT_LOG,
     DEFAULT_SCALE, DEFAULT_SWATCHES,DEFAULT_BREAKPOINTS, DEFAULT_START, DEFAULT_LOG_BREAKPOINTS,
     DEFAULT_ROTATIONS, DEFAULT_GAMMA, DEFAULT_LIGHTNESS, DEFAULT_NCOLORS} from './constants.js';
 
@@ -219,7 +219,7 @@ export default class ColorscalePicker extends Component {
         if (csType !== this.state.colorscaleType) {
             let isLogColorscale = this.state.log;
 
-            if(csType === 'custom') {
+            if(SCALES_WITHOUT_LOG.indexOf(csType) >= 0) {
                 isLogColorscale = false;
             }
 
@@ -231,7 +231,6 @@ export default class ColorscalePicker extends Component {
     }
 
     render() {
-
         return (
             <div className='colorscalePickerContainer'>
                 <div className='colorscalePickerTopContainer'>
@@ -248,7 +247,7 @@ export default class ColorscalePicker extends Component {
                                <span className='textLabel spaceRight'>Swatches:</span>
                                <span className='textLabel spaceRight'>{this.state.nSwatches}</span>
                            </div>
-                           {this.state.colorscaleType !== 'custom' &&
+                           {SCALES_WITHOUT_LOG.indexOf(this.state.colorscaleType) < 0 &&
                                <div className='noWrap inlineBlock alignTop'>
                                    <span className='textLabel spaceRight spaceLeft'>Log scale</span>
                                    <input 
