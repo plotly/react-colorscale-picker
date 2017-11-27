@@ -5,8 +5,6 @@ import React, {Component} from 'react';
 import {Colorscale} from 'react-colorscales';
 import ColorscalePicker from 'react-colorscales';
 
-import {DEFAULT_SCALE} from './components/constants.js';
-
 import {clone} from 'ramda'
 import createPlotlyComponent from 'react-plotly.js/factory'
 
@@ -17,6 +15,9 @@ import line from './plots/line.json';
 import './App.css';
 
 const Plot = createPlotlyComponent(Plotly);
+
+// Use "Viridis" as the default scale
+const DEFAULT_SCALE = ["#fafa6e", "#9cdf7c", "#4abd8c", "#00968e", "#106e7c", "#2a4858"];
 
 class App extends Component {
 
