@@ -1,8 +1,9 @@
 /* global Plotly:true */
 
 import React, {Component} from 'react';
-import ColorscalePicker from './components/ColorscalePicker.react.js';
-import Colorscale from './components/Colorscale.react.js';
+
+import {Colorscale} from 'react-colorscales';
+import ColorscalePicker from 'react-colorscales';
 
 import {DEFAULT_SCALE} from './components/constants.js';
 

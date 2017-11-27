@@ -9,6 +9,7 @@
     "rc-slider": "^8.4.0",
     "rc-tooltip": "^3.7.0",
     "react": "^16.0.0",
+    "react-colorscales": "^0.2.2",
     "react-dom": "^16.0.0",
     "react-plotly.js": "^1.0.3"
   },
