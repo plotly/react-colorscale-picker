@@ -129,6 +129,12 @@ class App extends Component {
                         layout={this.state.layout}
                     />
                 </div>
+                <div className='textContainer'>
+                    <h4>Colorscale as text array:</h4>
+                    <p>
+                        {JSON.stringify(this.state.colorscale)}
+                    </p>
+                </div>
             </div>
         );
     }

@@ -1,9 +1,23 @@
+/* https://brand.plot.ly/ */
+
 body {
 	margin: 0;
 	padding: 0;
 	font-family: sans-serif;
+    color: #2a3f5f;
 }
 
+.textContainer {
+    width: 700px;
+    margin: 40px auto;
+    font-family: courier;
+    font-size: 12px;
+    word-break: break-all;
+}
+
+/* Override these classes to change the appearance of the colorscale picker */
+
+/*
 .colorscalePickerContainer {
 	max-height: 550px;
 	overflow-y: scroll;
@@ -136,3 +150,4 @@ input[type=text] {
     opacity: 1;
     z-index: 999;
 }
+*/
