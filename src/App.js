@@ -17,7 +17,7 @@ import './App.css';
 const Plot = createPlotlyComponent(Plotly);
 
 // Use "Viridis" as the default scale
-const DEFAULT_SCALE = ["#fafa6e", "#9cdf7c", "#4abd8c", "#00968e", "#106e7c", "#2a4858"];
+const DEFAULT_SCALE = ['#fafa6e', '#9cdf7c', '#4abd8c', '#00968e', '#106e7c', '#2a4858'];
 
 class App extends Component {
 
@@ -97,7 +97,7 @@ class App extends Component {
             toggleButtonStyle = {borderColor: '#A2B1C6'};
         }
         return (
-            <div className="App">
+            <div className='App'>
                 <div 
                     onClick={this.toggleColorscalePicker}
                     className='toggleButton'
