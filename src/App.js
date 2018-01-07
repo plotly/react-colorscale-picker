@@ -121,6 +121,7 @@ class App extends Component {
                     <ColorscalePicker 
                         onChange={this.onChange}
                         colorscale={this.state.colorscale}
+                        nSwatches={this.state.colorscale.length}
                     />
                 }
                 <div className='plotContainer'>
